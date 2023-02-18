@@ -1,14 +1,10 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import GithubContext from '../../context/github/GithubContext';
 import Loading from '../common/Loading';
 import UserItem from './UserItem';
 
 function UserList() {
-	const { users, loading, fetUsers } = useContext(GithubContext);
-
-	useEffect(() => {
-		fetUsers();
-	}, []);
+	const { users, loading } = useContext(GithubContext);
 
 	return (
 		<>
