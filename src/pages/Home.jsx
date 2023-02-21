@@ -1,17 +1,14 @@
-import React from 'react'
-import UserList from '../components/users/UserList'
+import React from 'react';
+import UserList from '../components/users/UserList';
 
-import UserSearch from '../components/users/UserSearch'
+import UserSearch from '../components/users/UserSearch';
 function Home() {
-  return (
-    <>
-      <h1 className='text-6xl mb-4'>
-        <UserSearch />
-        <UserList />
-      </h1>
-
-    </>
-  )
+	return (
+		<>
+			<UserSearch />
+			<UserList />
+		</>
+	);
 }
 
-export default Home
+export default Home;

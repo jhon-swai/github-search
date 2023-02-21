@@ -2,10 +2,15 @@ import React, { useContext, useState } from 'react';
 import GithubContext from '../../context/github/GithubContext';
 function UserSearch() {
 	const [text, setText] = useState('');
-  const { users } = useContext(GithubContext);
+	const { users, searchUsers, clearUsers } = useContext(GithubContext);
 
 	const handleChange = (e) => {
 		setText(e.target.value);
+	};
+
+	const handleClear = () => {
+		setText('');
+		clearUsers();
 	};
 
 	const handleSubmit = (e) => {
@@ -15,12 +20,11 @@ function UserSearch() {
 			alert('Please enter something');
 		} else {
 			// TODO: search users
-      setText('');
-
+			searchUsers(text);
 		}
 	};
 	return (
-		<div className='grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 mb-8 gap-8 '>
+		<div className='grid grid-cols-3 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 mb-8 gap-8'>
 			<div>
 				<form onSubmit={handleSubmit}>
 					<div className='form-control'>
@@ -28,7 +32,7 @@ function UserSearch() {
 							<input
 								type='text'
 								value={text}
-								className='absolute w-full pr-40 bg-gray-200 input input-lg text-black'
+								className='w-full pr-40 bg-gray-200 input input-lg text-black'
 								placeholder='Search..'
 								onChange={handleChange}
 							/>
@@ -40,12 +44,15 @@ function UserSearch() {
 							</button>
 						</div>
 					</div>
-					{users.length > 0 && (
-						<div>
-							<button className='btn btn-ghost btn-lg'>Clear</button>
-						</div>
-					)}
 				</form>
+
+				{users.length > 0 && (
+					<div >
+						<button className='btn btn-ghost btn-lg' onClick={() => handleClear()}>
+							Clear 
+						</button>
+					</div>
+				)}
 			</div>
 		</div>
 	);
