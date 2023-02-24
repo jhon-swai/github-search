@@ -1,4 +1,4 @@
-import { CLEAR_USERS, GET_USER, GET_USERS, SET_LOADING } from './actionTypes';
+import { CLEAR_USERS, GET_USER, GET_USERS, GET_USERS_REPOS, SET_LOADING } from './actionTypes';
 
 export const setLoading = (payload) => ({
 	type: SET_LOADING,
@@ -17,5 +17,10 @@ export const getUsers = (payload) => ({
 
 export const clearUsers = (payload) => ({
 	type: CLEAR_USERS,
+	payload,
+});
+
+export const getUsersRepos = (payload) => ({
+	type: GET_USERS_REPOS,
 	payload,
 });

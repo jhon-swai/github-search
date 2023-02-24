@@ -1,5 +1,5 @@
 import { createContext, useReducer } from 'react';
-import { getUser, getUsers, setLoading } from './actions';
+import { clearUsers, getUser, getUsers, getUsersRepos, setLoading } from './actions';
 import githubReducer from './GithubReducer';
 
 const GithubContext = createContext();
@@ -16,7 +16,7 @@ export const GithubProvider = ({ children }) => {
 	};
 	const [state, dispatch] = useReducer(githubReducer, initialState);
 
-	const clearUsers = () => dispatch(clearUsers);
+	const clearUsersData = () => dispatch(clearUsers());
 
 	// search users
 	const searchUsers = async (text) => {
@@ -35,9 +35,6 @@ export const GithubProvider = ({ children }) => {
 			dispatch(setLoading(true));
 
 			const response = await fetch(`${GITHUB_URL}/search/users?${params}`, requestOptions);
-
-			// set loading to false
-			dispatch(setLoading(false));
 
 			const { items } = await response.json();
 			dispatch(getUsers(items));
@@ -63,8 +60,6 @@ export const GithubProvider = ({ children }) => {
 
 			const response = await fetch(`${GITHUB_URL}/users/${login}`, requestOptions);
 
-			// set loading to false
-			dispatch(setLoading(false));
 			if (response.status === 404) {
 				window.location = '/notfound';
 			} else {
@@ -72,6 +67,28 @@ export const GithubProvider = ({ children }) => {
 				// call get user action
 				dispatch(getUser(data));
 			}
+		} catch (error) {
+			dispatch(setLoading(false));
+			console.log('failed to fetch');
+		}
+	};
+
+	// get user repos
+	const getUserReposData = async (login) => {
+		let myHeaders = new Headers();
+		myHeaders.append('Authorization', GITHUB_TOKEN);
+		var requestOptions = {
+			method: 'GET',
+			headers: myHeaders,
+			redirect: 'follow',
+		};
+		try {
+			dispatch(setLoading(true));
+
+			const response = await fetch(`${GITHUB_URL}/users/${login}/repos`, requestOptions);
+
+			const data = await response.json();
+			dispatch(getUsersRepos(data));
 		} catch (error) {
 			dispatch(setLoading(false));
 			console.log('failed to fetch');
@@ -86,8 +103,9 @@ export const GithubProvider = ({ children }) => {
 				loading: state.loading,
 				repos: state.repos,
 				searchUsers,
-				clearUsers,
+				clearUsersData,
 				getUserData,
+				getUserReposData,
 			}}
 		>
 			{children}
