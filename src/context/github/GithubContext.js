@@ -75,6 +75,10 @@ export const GithubProvider = ({ children }) => {
 
 	// get user repos
 	const getUserReposData = async (login) => {
+		const params = new URLSearchParams({
+			sort: 'created_at',
+			per_page: 10,
+		});
 		let myHeaders = new Headers();
 		myHeaders.append('Authorization', GITHUB_TOKEN);
 		var requestOptions = {
@@ -85,7 +89,7 @@ export const GithubProvider = ({ children }) => {
 		try {
 			dispatch(setLoading(true));
 
-			const response = await fetch(`${GITHUB_URL}/users/${login}/repos`, requestOptions);
+			const response = await fetch(`${GITHUB_URL}/users/${login}/repos?${params}`, requestOptions);
 
 			const data = await response.json();
 			dispatch(getUsersRepos(data));

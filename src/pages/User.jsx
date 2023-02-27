@@ -5,9 +5,10 @@ import { FaCodepen, FaStore, FaUserFriends, FaUsers } from 'react-icons/fa';
 
 import Loading from '../components/common/Loading';
 import GithubContext from '../context/github/GithubContext';
+import RepoList from '../components/repos/RepoList';
 
 function User() {
-	const { user, getUserData, loading } = useContext(GithubContext);
+	const { user, repos, getUserData, loading, getUserReposData } = useContext(GithubContext);
 	const params = useParams();
 
 	const {
@@ -23,12 +24,13 @@ function User() {
 		followers,
 		hireable,
 		following,
-    public_repos,
-    public_gist
+		public_repos,
+		public_gist,
 	} = user;
 
 	useEffect(() => {
 		getUserData(params.login);
+		getUserReposData(params.login);
 	}, []);
 
 	return (
@@ -39,7 +41,7 @@ function User() {
 				<>
 					<div className='w-full mx-auto lg:w-10/12'>
 						<div className='mb-4'>
-							<Link to='/' clasName='btn btn-ghost'>
+							<Link to='/' className='btn btn-ghost'>
 								Back To Search
 							</Link>
 						</div>
@@ -143,9 +145,9 @@ function User() {
 									<div className='stat-title pr-5'>Public Repos</div>
 									<div className='stat-value pr-5 text-3xl md:text-4xl'>{public_repos}</div>
 								</div>
-                </div>
-                
-                {/* public gis */}
+							</div>
+
+							{/* public gis */}
 							<div className='w-full py-5 mb-6 rounded-lg shadow-md bg-base-100 stats'>
 								<div className='stat'>
 									<div className='stat-figure text-secondary'>
@@ -156,6 +158,7 @@ function User() {
 								</div>
 							</div>
 						</div>
+						<RepoList repos={repos} />
 					</div>
 				</>
 			)}
