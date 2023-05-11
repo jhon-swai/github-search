@@ -11,6 +11,8 @@ RUN npm install
 COPY . /src
 ENV NODE_ENV=production
 RUN npm install --production
+RUN npm config set strict-ssl false
+
 #Run Steps
 FROM nginx:latest
 
