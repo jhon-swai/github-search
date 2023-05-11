@@ -13,6 +13,8 @@ RUN npm config set strict-ssl false
 
 RUN npm install --production
 
+RUN npm run build
+
 #Run Steps
 FROM nginx:latest
 
