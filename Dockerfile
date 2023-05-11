@@ -24,6 +24,10 @@ RUN rm -rf ./*
 
 COPY --from=build-step /src/build .
 
-EXPOSE 3000 80
+COPY nginx/nginx.conf /etc/nginx/conf.d
+
+
+EXPOSE 3000
 
 # ENTRYPOINT ['nginx','-g','daemon off;']
+CMD ["nginx", "-g", "daemon off;"]
