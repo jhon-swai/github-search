@@ -3,8 +3,7 @@ FROM node:alpine as build-step
 RUN mkdir /src
 WORKDIR /src
 
-COPY package.json /src
-COPY package-lock.json /src
+COPY package*.json /src
 
 COPY . /src
 ENV NODE_ENV=production
